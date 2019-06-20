@@ -59,6 +59,7 @@
                 <div class="col-md-2 col-sm-3">
                     <div class="pricing-table black ">
                         <div class="pricing-table-header"></div>
+{{--                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>--}}
                         <img src="{{asset('images/'.$image->name)}}" width="155px" alt="" style="padding: 5px 0">
                         <button type="submit" class="btn_1 green">Delete</button>
                     </div>
