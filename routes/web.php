@@ -14,6 +14,7 @@
 Route::get('/', 'TravelController@index')->name('frontend.index');
 
 Route::group(['middleware' => 'auth'], function (){
+    Route::post('/remove-image', 'PostTourController@delImage')->name('remove-image');
     Route::resource('posttour', 'PostTourController');
     Route::resource('account', 'AccountController');
 

@@ -146,14 +146,11 @@ class PostTourController extends Controller
         }
     }
 
-    public function delImage($id){
-        $img = new ImgPostTour();
+    public function delImage(Request $request){
+        $id = $request->image_id;
         $img = ImgPostTour::find($id);
         $img->delete();
-//        ImgPostTour::find($id)->delete();
-        return response()->json([
-            'success' => 'Deleted successfully'
-        ]);
+        return 'success';
     }
 
     public function dlt(){

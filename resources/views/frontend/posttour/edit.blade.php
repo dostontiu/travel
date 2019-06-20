@@ -54,19 +54,17 @@
                     {{ csrf_field() }}
                 </form>
             </div>
-            <div class="row">
+            <div class="row" data-post="{{ $posttour->id }}">
                 @foreach($images as $image)
-                <div class="col-md-2 col-sm-3">
+                <div class="col-md-2 col-sm-3 image-container" data-image="{{ $image->id }}">
                     <div class="pricing-table black ">
                         <div class="pricing-table-header"></div>
-{{--                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>--}}
+                        <a href="#" class="close delete-button" data-url="{{ route('remove-image') }}">&times;</a>
                         <img src="{{asset('images/'.$image->name)}}" width="155px" alt="" style="padding: 5px 0">
-                        <button type="submit" class="btn_1 green">Delete</button>
                     </div>
                 </div>
                 @endforeach
             </div>
-
         </div>
         <!-- End Container -->
     </main>
@@ -93,6 +91,33 @@
             maxFilesize         :       1,
             acceptedFiles: ".jpeg,.jpg,.png,.gif",
         };
+        $(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.delete-button').on('click', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('data-url');
+                var image_id = $(this).parent().parent().attr('data-image');
+                var post_id = $(this).parent().parent().parent().attr('data-post');
+                var image_container = $(this).parent().parent();
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        image_id: image_id,
+                        post_id: post_id
+                    },
+                    success: function (data) {
+                        $(image_container).remove();
+                    }
+                })
+
+            })
+        })
     </script>
 @endpush
 
