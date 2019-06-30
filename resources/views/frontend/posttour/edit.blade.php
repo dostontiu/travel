@@ -33,19 +33,6 @@
             <div class="default-title">
                 <h2>Update Post for Tour {{$posttour->id}}</h2>
             </div>
-            <div class="row">
-                <form action="/posttour/{{$posttour->id}}" method="POST" >
-
-                    @method('PATCH')
-                    @csrf
-                    @include('frontend.posttour.form')
-                    <div class="form-group col-md-2 col-sm-6 col-xs-6">
-                        <div class="field-group btn-field">
-                            <button type="submit" class="btn btn_cart_outine">Update</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
             <div class="row" >
                 <label>Upload images for galery <sup>*</sup></label>
                 <form action="{{asset('upload-images')}}"
@@ -54,19 +41,30 @@
                     {{ csrf_field() }}
                 </form>
             </div>
-            <div class="row">
+            <div class="row" data-post="{{ $posttour->id }}">
                 @foreach($images as $image)
-                <div class="col-md-2 col-sm-3">
-                    <div class="pricing-table black ">
-                        <div class="pricing-table-header"></div>
-{{--                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>--}}
-                        <img src="{{asset('images/'.$image->name)}}" width="155px" alt="" style="padding: 5px 0">
-                        <button type="submit" class="btn_1 green">Delete</button>
+                    <div class="col-md-2 col-sm-3 image-container" data-image="{{ $image->id }}">
+                        <div class="pricing-table black ">
+                            <div class="pricing-table-header"></div>
+                            <a href="#" class="close delete-button" data-url="{{ route('remove-image') }}">&times;</a>
+                            <img src="{{asset('images/'.$image->name)}}" width="155px" alt="" style="padding: 5px 0">
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
+            <div class="row">
+                <form action="{{route('posttour.update', [$posttour->id])}}" method="POST" >
+                    @csrf
+                    @method('PATCH')
+                    @include('frontend.posttour.form')
 
+                    <div class="form-group col-md-2 col-sm-6 col-xs-6">
+                        <div class="field-group btn-field">
+                            <button type="submit" class="btn btn_cart_outine">Update</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
         <!-- End Container -->
     </main>
@@ -93,6 +91,33 @@
             maxFilesize         :       1,
             acceptedFiles: ".jpeg,.jpg,.png,.gif",
         };
+        $(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('.delete-button').on('click', function (e) {
+                e.preventDefault();
+                var url = $(this).attr('data-url');
+                var image_id = $(this).parent().parent().attr('data-image');
+                var post_id = $(this).parent().parent().parent().attr('data-post');
+                var image_container = $(this).parent().parent();
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {
+                        image_id: image_id,
+                        post_id: post_id
+                    },
+                    success: function (data) {
+                        $(image_container).remove();
+                    }
+                })
+
+            })
+        })
     </script>
 @endpush
 

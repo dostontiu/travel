@@ -12,14 +12,13 @@
 */
 
 Route::get('/', 'TravelController@index')->name('frontend.index');
+Route::get('/viewswitch/{name}', 'TravelController@viewSwitch')->name('viewswitch');
+Route::resource('posttour', 'PostTourController');
 
 Route::group(['middleware' => 'auth'], function (){
-    Route::resource('posttour', 'PostTourController');
     Route::resource('account', 'AccountController');
-
     Route::post('upload-images', 'PostTourController@uploadImages')->name('upload-images');
+    Route::post('/remove-image', 'PostTourController@delImage')->name('remove-image');
     Route::delete('posttour/del-image/{id}', 'PostTourController@delImage')->name('del-image');
-    Route::post('/dlt', 'PostTourController@dlt');
-//    Route::get('posttour/delete/{id}', 'PostTourController@destroy');
 });
 Auth::routes();

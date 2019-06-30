@@ -77,7 +77,7 @@
                                 <ul>
                                     <li>
                                         <label>
-                                            <input type="checkbox"><span class="rating">
+                                            <input type="checkbox" class="five-smile-icon"><span class="rating">
                     <i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i>
                     </span>
                                         </label>
@@ -169,110 +169,17 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6 col-sm-6 hidden-xs text-right">
-                                <a href="all_tours_grid.html" class="bt_filters"><i class="icon-th"></i></a> <a href="#" class="bt_filters"><i class=" icon-list"></i></a>
+                            <div id="viewcontrols" class="col-md-6 col-sm-6 hidden-xs text-right">
+                                <a href="{{route('viewswitch', 'list')}}" class="listview active bt_filters"><i class="icon-list"></i></a>
+                                <a href="{{route('viewswitch', 'grid')}}" class="gridview bt_filters"><i class="icon-th"></i></a>
                             </div>
 
                         </div>
                     </div>
                     <!--/tools -->
-
-                    @if(count($posts)>0)
-                        <?php $delaycount=0?>
-                        @foreach($posts as $post)
-                            <div class="strip_all_tour_list wow fadeIn" data-wow-delay="{{$delaycount+=0.1}}s">
-                                <div class="row">
-                                    <div class="col-lg-4 col-md-4 col-sm-4">
-                                        <div class="ribbon_3 popular"><span>Popular</span>
-                                        </div>
-                                        <div class="wishlist">
-                                            <a class="tooltip_flip tooltip-effect-1" href="javascript:void(0);">+<span class="tooltip-content-flip"><span class="tooltip-back">Add to wishlist</span></span></a>
-                                        </div>
-                                        <div class="img_list">
-                                            <a href="{{ route('frontend.index') }}/posttour/{{$post->id}}"><img src="{{asset('frontend/img/tour_box_1.jpg')}}" alt="Image">
-                                                <div class="short_info"><i class="icon_set_1_icon-4"></i>Tour </div>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="clearfix visible-xs-block"></div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <div class="tour_list_desc">
-                                            <div class="rating"><i class="icon-smile voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile"></i><small>(75)</small>
-                                            </div>
-                                            <h3><strong>{{$post->name}}</strong></h3>
-                                            <p>{{$post->title}}</p>
-                                            <p>{{$post->title}}</p>
-                                            <ul class="add_info">
-                                                <li>
-                                                    <div class="tooltip_styled tooltip-effect-4">
-                                                        <span class="tooltip-item"><i class="icon_set_1_icon-83"></i></span>
-                                                        <div class="tooltip-content">
-                                                            <h4>Rooms</h4>
-                                                            <strong>{{$post->rooms}}</strong> Rooms<br>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tooltip_styled tooltip-effect-4">
-                                                        <span class="tooltip-item"><i class="icon_set_1_icon-41"></i></span>
-                                                        <div class="tooltip-content">
-                                                            <h4>Address</h4> Musée du Louvre, 75058 Paris - France
-                                                            <br>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tooltip_styled tooltip-effect-4">
-                                                        <span class="tooltip-item"><i class="icon_set_1_icon-97"></i></span>
-                                                        <div class="tooltip-content">
-                                                            <h4>Languages</h4> English - French - Chinese - Russian - Italian
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tooltip_styled tooltip-effect-4">
-                                                        <span class="tooltip-item"><i class="icon_set_1_icon-27"></i></span>
-                                                        <div class="tooltip-content">
-                                                            <h4>Parking</h4> 1-3 Rue Elisée Reclus
-                                                            <br> 76 Rue du Général Leclerc
-                                                            <br> 8 Rue Caillaux 94923
-                                                            <br>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="tooltip_styled tooltip-effect-4">
-                                                        <span class="tooltip-item"><i class="icon_set_1_icon-25"></i></span>
-                                                        <div class="tooltip-content">
-                                                            <h4>Transport</h4>
-                                                            <strong>Metro: </strong>Musée du Louvre station (line 1)
-                                                            <br>
-                                                            <strong>Bus:</strong> 21, 24, 27, 39, 48, 68, 69, 72, 81, 95
-                                                            <br>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-2 col-md-2 col-sm-2">
-                                        <div class="price_list">
-                                            <div><sup>$</sup>{{$post->cost}}*<span class="normal_price_list">{{$post->discount}}</span><small>*Per person</small>
-                                                <p><a href="{{route('posttour.edit', $post->id)}}" class="btn btn-link"><i class="icon-edit"></i></a></p>
-                                                <p><a href="{{route('posttour.show', $post->id)}}" class="btn_1">Details</a></p>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--End strip -->
-                        @endforeach
-                            <hr>
-                            <div class="text-center">
-                                {{ $posts->links() }}
-                            </div>
-                    @endif
+                    <div id="tag_container">
+                        @include('frontend.posttour.presult')
+                    </div>
                 </div>
                 <!-- End col lg-9 -->
             </div>
@@ -300,6 +207,49 @@
         <script src="http://maps.googleapis.com/maps/api/js"></script>
         <script src="{{asset('frontend/js/map.js')}}"></script>
         <script src="{{asset('frontend/js/infobox.js')}}"></script>
+
+        <script type="text/javascript">
+            $(window).on('hashchange', function() {
+                if (window.location.hash) {
+                    var page = window.location.hash.replace('#', '');
+                    if (page == Number.NaN || page <= 0) {
+                        return false;
+                    }else{
+                        getData(page);
+                    }
+                }
+            });
+            $(document).ready(function()
+            {
+                $(document).on('click', '.pagination a',function(event)
+                {
+                    event.preventDefault();
+
+                    $('li').removeClass('active');
+                    $(this).parent('li').addClass('active');
+
+                    var myurl = $(this).attr('href');
+                    var page=$(this).attr('href').split('page=')[1];
+
+                    getData(page);
+                });
+
+            });
+
+            function getData(page){
+                $.ajax(
+                    {
+                        url: '?page=' + page,
+                        type: "get",
+                        datatype: "html"
+                    }).done(function(data){
+                    $("#tag_container").empty().html(data);
+                    location.hash = page;
+                }).fail(function(jqXHR, ajaxOptions, thrownError){
+                    alert('No response from server');
+                });
+            }
+        </script>
     @endpush
 
 @endsection

@@ -33,6 +33,16 @@
             <div class="default-title">
                 <h2 class="text-center">Create Tour Post</h2>
             </div>
+            <div class="row" >
+                <div class="col-md-12">
+                    <label>Upload images for galery <sup>*</sup></label>
+                    <form action="{{asset('upload-images')}}"
+                          class="dropzone"
+                          id="my-awesome-dropzone">
+                        {{ csrf_field() }}
+                    </form>
+                </div>
+            </div>
             <form action="/posttour" method="post"  enctype="multipart/form-data">
                 {{ csrf_field() }}
 
@@ -44,14 +54,6 @@
                     </div>
                 </div>
             </form>
-            <div class="row" >
-                <label>Upload images for galery <sup>*</sup></label>
-                <form action="{{asset('upload-images')}}"
-                      class="dropzone"
-                      id="my-awesome-dropzone">
-                    {{ csrf_field() }}
-                </form>
-            </div>
 
         </div>
         <!-- End Container -->

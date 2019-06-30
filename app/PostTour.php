@@ -7,11 +7,21 @@ use Illuminate\Database\Eloquent\Model;
 class PostTour extends Model
 {
     public function user(){
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
+    }
+
+    public function tourCategory()
+    {
+        return $this->belongsTo(TourCategory::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
     }
 
     public function imgPostTour(){
-        $this->hasMany(ImgPostTour::class, 'post_tour_id');
+        return $this->hasMany(ImgPostTour::class, 'post_tour_id');
     }
 
     protected $guarded = [];

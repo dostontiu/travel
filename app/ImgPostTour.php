@@ -8,7 +8,7 @@ class ImgPostTour extends Model
 {
 
     public function PostTour(){
-        $this->belongsTo(PostTour::class);
+        return $this->belongsTo(PostTour::class);
     }
 
     protected $fillable = [

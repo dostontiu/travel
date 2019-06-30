@@ -17,10 +17,18 @@ class TravelController extends Controller
         return view('frontend.index');
     }
 
-    public function singlehotel()
+    public function viewSwitch($name)
     {
-        return view('frontend.singlehotel');
+        if ($name=='grid'){
+            session()->put('viewswitch', 'grid');
+        } else {
+            session()->put('viewswitch', 'list');
+        }
+        return back();
     }
+
+
+
 
     public function singletour()
     {

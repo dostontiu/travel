@@ -28,11 +28,15 @@ class CreatePostToursTable extends Migration
             $table->string('discount')->nullable();
             $table->string('insurance')->nullable();
             $table->integer('status_id')->nullable();
+            $table->bigInteger('category_id')->unsigned();
+            $table->bigInteger('region_id')->unsigned();
             $table->timestamps();
         });
 
         Schema::table('post_tours',function (Blueprint $table){
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('tour_categories')->onDelete('cascade');
+            $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
         });
     }
 

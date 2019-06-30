@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\ImgPostTour;
 use App\PostTour;
+use App\Region;
+use App\TourCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class PostTourController extends Controller
 {
@@ -13,9 +16,13 @@ class PostTourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = PostTour::paginate(5);
+        $posts = PostTour::paginate(6);
+
+        if ($request->ajax()) {
+            return view('frontend.posttour.presult', compact('posts'));
+        }
         return view('frontend.posttour.index', ['posts' => $posts]);
     }
 
@@ -27,7 +34,9 @@ class PostTourController extends Controller
     public function create()
     {
         $posttour = new PostTour();
-        return view('frontend.posttour.create', compact('posttour'));
+        $categories = TourCategory::all();
+        $regions = Region::all();
+        return view('frontend.posttour.create', compact(['posttour', 'categories', 'regions']));
     }
 
     /**
@@ -52,24 +61,19 @@ class PostTourController extends Controller
             'rooms' => 'required',
             'term' => 'required',
             'activity' => 'required',
+            'category_id' => 'required',
+            'region_id' => 'required',
             'facility' => '',
             'insurance' => '',
             'user_id' => '',
         ]);
         $posttour = PostTour::create($data);
 
-        $images = session('upload-images');
-        session()->forget('upload-images');
-        if ($images){
-            foreach ($images as $image) {
-                ImgPostTour::create([
-                    'name' => $image,
-                    'post_tour_id' => $posttour->id,
-                ]);
-            }
-        }
+        $this->addImages($posttour->id);
+
         return redirect('posttour')->with('success', 'Your post added successfuly!');
     }
+
 
     /**
      * Display the specified resource.
@@ -91,8 +95,14 @@ class PostTourController extends Controller
      */
     public function edit(PostTour $posttour)
     {
-        $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
-        return view('frontend.posttour.edit', compact(['posttour','images']));
+//        $this->authorize(PostTour::class, 'auth');
+        if (auth()->id()==$posttour->user_id){
+            $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
+            $categories = TourCategory::all();
+            $regions = Region::all();
+            return view('frontend.posttour.edit', compact(['posttour','images', 'categories', 'regions']));
+        }
+        return back();
     }
 
     /**
@@ -114,8 +124,11 @@ class PostTourController extends Controller
             'rooms' => 'required',
             'term' => 'required',
             'activity' => 'required',
+            'category_id' => 'required',
+            'region_id' => 'required',
         ]);
         $posttour->update($data);
+        $this->addImages($posttour->id);
         return redirect('/posttour/'.$posttour->id)->with('success', 'Your post updated');
     }
 
@@ -146,20 +159,27 @@ class PostTourController extends Controller
         }
     }
 
-    public function delImage($id){
-        $img = new ImgPostTour();
-        $img = ImgPostTour::find($id);
-        $img->delete();
-//        ImgPostTour::find($id)->delete();
-        return response()->json([
-            'success' => 'Deleted successfully'
-        ]);
+    public function addImages($id)
+    {
+        $images = session('upload-images');
+        session()->forget('upload-images');
+        if ($images){
+            foreach ($images as $image) {
+                ImgPostTour::create([
+                    'name' => $image,
+                    'post_tour_id' => $id,
+                ]);
+            }
+        }
     }
 
-    public function dlt(){
-        return view('frontend.posttour.show')->response()->json([
-            'success' => 'Deleted successfully'
-        ]);
+    public function delImage(Request $request){
+        $id = $request->image_id;
+        $img = ImgPostTour::find($id);
+        $img->delete();
+        $image_path = public_path().'/images/'.$img->name;
+        File::delete($image_path);
+        return 'success';
     }
 
 }

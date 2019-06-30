@@ -1,4 +1,21 @@
 <div class="row">
+    <div class="form-group col-md-6 col-sm-12 col-xs-12">
+        <label>Category<sup>*</sup></label>
+        <input type="text" name="category_id" value="{{ old('category_id') ?? $posttour->category_id }}" class="form-control{{ $errors->has('category_id') ? ' has-error' : '' }}">
+        <select name="category_id" class="form-control{{ $errors->has('category_id') ? ' has-error' : '' }}" >
+            <option>-- Select --</option>
+            @foreach($categories as $category)
+                <option value="{{$category->id}}"  {{( ($category->id==old('category_id')) || ($category->id==$posttour->category_id) )? 'selected' : '' }}>{{$category->name}}</option>
+            @endforeach
+        </select>oonm5199
+        <small class="text-danger">{{ $errors->first('name') }}</small>
+    </div>
+    <div class="form-group col-md-6 col-sm-12 col-xs-12">
+        <label>Region <sup>*</sup></label>
+        <input type="text" name="region_id" value="{{ old('region_id') ?? $posttour->region_id }}" class="form-control{{ $errors->has('region_id') ? ' has-error' : '' }}">
+        <small class="text-danger">{{ $errors->first('name') }}</small>
+    </div>
+
     <div class="form-group col-md-10 col-sm-12 col-xs-12">
         <label>Name <sup>*</sup></label>
         <input type="text" name="name" value="{{ old('name') ?? $posttour->name }}" class="form-control{{ $errors->has('name') ? ' has-error' : '' }}">
