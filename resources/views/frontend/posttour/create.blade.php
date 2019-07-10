@@ -29,10 +29,15 @@
         <!-- End Position -->
 
         <div class="container margin_60">
+            <h2 class="col-md-6 default-title">Create Tour Post</h2>
+            <nav class="col-md-6">
+                <ul class="nav nav-pills" style="float:right">
+                    @foreach($languages as $language)
+                        <li class="btn-default"><a href="">{{$language->name}}</a></li>
+                    @endforeach
+                </ul>
+            </nav>
 
-            <div class="default-title">
-                <h2 class="text-center">Create Tour Post</h2>
-            </div>
             <div class="row" >
                 <div class="col-md-12">
                     <label>Upload images for galery <sup>*</sup></label>

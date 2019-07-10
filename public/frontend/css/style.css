@@ -1240,7 +1240,16 @@ ul#cat_nav i {
 }
 
 .strip_all_tour_list h3 {
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
+	/*border: 1px solid red;*/
+	height: 40px;
+	overflow: hidden;
+}
+
+.strip_all_tour_list .tour_title {
+	text-align: justify;
+	height: 50px;
+	overflow: hidden;
 }
 
 .tour_list_desc .rating {
@@ -1299,13 +1308,19 @@ ul#cat_nav i {
 	margin-bottom: 10px;
 }
 
+.tour_list_desc a {
+	float: left;
+}
+
 .price_list {
 	display: table;
-	height: 220px;
-	font-size: 38px;
+	height: 160px;
+	overflow: hidden;
+	font-size: 25px;
 	color: #e74c3c;
 	width: 100%;
 	margin-left: -15px;
+	/*border: 1px solid #00A8FF;*/
 }
 
 .price_list small {
@@ -1320,6 +1335,7 @@ ul#cat_nav i {
 	display: table-cell;
 	vertical-align: middle;
 	text-align: center;
+	/*text-decoration: line-through;*/
 }
 
 .price_list p {
@@ -1329,10 +1345,10 @@ ul#cat_nav i {
 
 .price_list .normal_price_list {
 	display: block;
-	text-decoration: line-through;
 	color: #999;
 	font-size: 20px;
 	margin-top: 10px;
+	text-decoration: line-through;
 }
 
 .price_list sup {
@@ -1345,6 +1361,8 @@ ul.add_info {
 	list-style: none;
 	padding: 0;
 	margin: 0;
+	position: absolute;
+	bottom: 25px;
 }
 
 ul.add_info li {
@@ -1357,6 +1375,12 @@ ul.add_info li {
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
+}
+
+.tour_list_desc .region {
+	position: absolute;
+	right: 40px;
+	bottom: 26px;
 }
 
 ul.add_info li a {
@@ -2939,6 +2963,7 @@ ul.list_order li span {
 }
 
 .img_container {
+	height: 250px;
 	position: relative;
 	overflow: hidden;
 	border: 1px solid #fff;
@@ -2957,7 +2982,10 @@ ul.list_order li span {
 .tour_container .tour_title h3 {
 	margin: 0;
 	font-size: 18px;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
+	width: 90%;
+	overflow: hidden;
+	height: 58px;
 }
 
 .wishlist {

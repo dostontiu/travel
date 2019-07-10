@@ -11,4 +11,6 @@ class TourCategory extends Model
     {
         return $this->hasMany(PostTour::class, 'category_id');
     }
+
+    protected $guarded = [];
 }

@@ -15,26 +15,17 @@ class CreatePostToursTable extends Migration
     {
         Schema::create('post_tours', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id')->unsigned();
-            $table->string('name');
-            $table->string('title');
-            $table->longText('description');
-            $table->longText('service'); // wifi, lunch, ....
-            $table->text('term');
-            $table->string('rooms');
-            $table->text('facility')->nullable();
-            $table->longText('activity'); // faoliyati
-            $table->float('cost');
-            $table->string('discount')->nullable();
-            $table->string('insurance')->nullable();
-            $table->integer('status_id')->nullable();
+            $table->float('price');
+            $table->integer('price_type_id');
+            $table->integer('sale')->nullable();
+            $table->integer('rooms');
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('region_id')->unsigned();
+            $table->integer('status_id');
             $table->timestamps();
         });
 
         Schema::table('post_tours',function (Blueprint $table){
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('category_id')->references('id')->on('tour_categories')->onDelete('cascade');
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
         });

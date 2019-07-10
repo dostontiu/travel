@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\ImgPostTour;
 use App\PostTour;
+use App\PostTourContent;
+use App\PriceType;
 use App\Region;
 use App\TourCategory;
+use App\TourLang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -31,12 +34,28 @@ class PostTourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id=0)
     {
+        
+        $dd = PostTour::with('postTourContent')->get();
         $posttour = new PostTour();
+        $posttourcontent = new PostTourContent();
         $categories = TourCategory::all();
         $regions = Region::all();
-        return view('frontend.posttour.create', compact(['posttour', 'categories', 'regions']));
+        $languages = TourLang::all();
+        $price_types = PriceType::all();
+        $has_lang = [];
+
+        foreach (PostTour::with('postTourContent')->get() as $item) {
+            if ($item->id==$id){
+                $posttour = PostTour::find($id);
+                foreach ($item->postTourContent as $d){
+                    $has_lang[] = $d->lang_id;
+                }
+            }
+        }
+
+        return view('frontend.posttour.create', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
     }
 
     /**
@@ -49,29 +68,48 @@ class PostTourController extends Controller
 
     public function store(Request $request)
     {
-        //Validate
-        $request['user_id'] = auth()->id();
-        $data = $request->validate([
-            'name' => 'required',
-            'cost' => 'required',
-            'discount' => 'required',
+        $post_id = $request['post_id'];
+        $post_tour = $request->validate([
+            'price' => 'required|integer',
+            'price_type_id' => 'required|integer',
+            'sale' => 'required|integer',
+            'rooms' => 'required|integer',
+            'category_id' => 'required|integer',
+            'region_id' => 'required|integer',
+            'status_id' => '',
+        ]);
+        $post_tour_content = $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'content' => 'required',
             'service' => 'required',
-            'rooms' => 'required',
             'term' => 'required',
             'activity' => 'required',
-            'category_id' => 'required',
-            'region_id' => 'required',
+            'lang_id' => 'required',
             'facility' => '',
             'insurance' => '',
-            'user_id' => '',
         ]);
-        $posttour = PostTour::create($data);
 
-        $this->addImages($posttour->id);
+        if ($post_id == null){
+            $post_tour['status_id'] = 1;
+            $post = PostTour::create($post_tour);
+            $post_id = $post->id;
+        }
+        //langni tekshirish
+        if (in_array($post_tour_content['lang_id'], $this->hasLang($post_id))){
+            return redirect('posttour/create/'.$post_id)->with('error', 'This language post already exist!')->withInput();
+//            return 'bu til bor';
+        }
+        $post_tour_content['post_tour_id'] = $post_id;
+        $post_tour_content['user_id'] = auth()->id();
+        $post_tour_content['status_id'] = 1;
+        PostTourContent::create($post_tour_content);
 
+//        dd($post_tour_content);
+
+        $this->addImages($post_id);
         return redirect('posttour')->with('success', 'Your post added successfuly!');
+
     }
 
 
@@ -96,13 +134,19 @@ class PostTourController extends Controller
     public function edit(PostTour $posttour)
     {
 //        $this->authorize(PostTour::class, 'auth');
-        if (auth()->id()==$posttour->user_id){
+//        if (auth()->id()==$posttour->user_id){
             $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
             $categories = TourCategory::all();
             $regions = Region::all();
-            return view('frontend.posttour.edit', compact(['posttour','images', 'categories', 'regions']));
-        }
-        return back();
+//            $posttourcontent = new PostTourContent();
+            $posttourcontent = PostTourContent::where('post_tour_id', 1)->get();
+            dd($posttourcontent);
+            $languages = TourLang::all();
+            $price_types = PriceType::all();
+            $has_lang = [];
+            return view('frontend.posttour.edit', compact(['posttour', 'posttourcontent', 'images', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
+//        }
+//        return back();
     }
 
     /**
@@ -114,8 +158,9 @@ class PostTourController extends Controller
      */
     public function update(PostTour $posttour)
     {
+
         $data = request()->validate([
-            'name' => 'required',
+            'name' => 'required|min:10|max:50',
             'cost' => 'required',
             'discount' => 'required',
             'title' => 'required',
@@ -180,6 +225,19 @@ class PostTourController extends Controller
         $image_path = public_path().'/images/'.$img->name;
         File::delete($image_path);
         return 'success';
+    }
+
+    public function hasLang($id)
+    {
+        $has_lang = [];
+        foreach (PostTour::with('postTourContent')->get() as $item) {
+            if ($item->id==$id){
+                foreach ($item->postTourContent as $d){
+                    $has_lang[] = $d->lang_id;
+                }
+            }
+        }
+        return $has_lang;
     }
 
 }

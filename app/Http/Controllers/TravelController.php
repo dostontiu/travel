@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use App\Travel;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,12 @@ class TravelController extends Controller
         return back();
     }
 
-
+    public function lang($locale)
+    {
+        App::setLocale($locale);
+        session()->put('locale', $locale);
+        return redirect()->back();
+    }
 
 
     public function singletour()

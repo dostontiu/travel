@@ -327,6 +327,16 @@
                                 </div>
                             </div><!-- End menu-wrapper -->
                         </li>
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Language <span class="caret"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{route('frontend.lang', 'en')}}">English</a>
+                                <a class="dropdown-item" href="{{route('frontend.lang', 'ru')}}">Russian</a>
+                                <a class="dropdown-item" href="{{route('frontend.lang', 'uz')}}">Uzbekcha</a>
+                            </div>
+                        </li>
                     </ul>
                 </div><!-- End main-menu -->
                 <ul id="top_tools">
@@ -370,7 +380,7 @@
         </div>
     </div><!-- container -->
 </header><!-- End Header -->
-
+<p>{{ trans('sentence.welcome')}}</p>
 @yield('content')
 
 <footer class="revealed">

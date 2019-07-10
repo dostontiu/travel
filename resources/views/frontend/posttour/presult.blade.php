@@ -8,9 +8,9 @@
                         </div>
                         <div class="img_container">
                             <a href="{{ route('posttour.show',$post->id) }}">
-                                <img src="{{asset('frontend/img/tour_box_1.jpg')}}" width="800" height="533" class="img-responsive" alt="Image">
+                                    <img src="{{ isset($post->imgPostTour->first()->name) ? asset('images') .'/'. $post->imgPostTour->first()->name : asset('images') .'/'. 'noimage.jpg'}}"class="img-responsive" alt="Image">
                                 <div class="short_info">
-                                    <i class="icon_set_1_icon-44"></i>{{$post->name}}<span class="price"><sup>$</sup>45</span>
+                                    <i class="icon_set_1_icon-44"></i>{{$post->category->name}}<span class="price">{{$post->cost}} <sup>so'm</sup></span>
                                 </div>
                             </a>
                         </div>
@@ -18,6 +18,12 @@
                             <h3><strong>{{$post->name}}</strong></h3>
                             <div class="rating">
                                 <i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><small>(75)</small>
+                                <div style="float: right">
+                                    <a href="{{$post->category->name}}">
+                                        <i class="icon_set_1_icon-41"></i>
+                                        {{$post->region->name}}
+                                    </a>
+                                </div>
                             </div>
                             <!-- end rating -->
                             <div class="wishlist">
@@ -39,8 +45,9 @@
                                 <a class="tooltip_flip tooltip-effect-1" href="javascript:void(0);">+<span class="tooltip-content-flip"><span class="tooltip-back">Add to wishlist</span></span></a>
                             </div>
                             <div class="img_list">
-                                <a href="{{ route('posttour.show',$post->id) }}"><img src="{{asset('frontend/img/tour_box_1.jpg')}}" alt="Image">
-                                    <div class="short_info"><i class="icon_set_1_icon-4"></i>Tour </div>
+                                <a href="{{ route('posttour.show',$post->id) }}">
+                                    <img src="{{ isset($post->imgPostTour->first()->name) ? asset('images') .'/'. $post->imgPostTour->first()->name : asset('images') .'/'. 'noimage.jpg'}}" alt="Image">
+                                    <div class="short_info"><i class="icon_set_1_icon-4"></i> {{$post->category->name}} </div>
                                 </a>
                             </div>
                         </div>
@@ -50,8 +57,7 @@
                                 <div class="rating"><i class="icon-smile voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile"></i><small>(75)</small>
                                 </div>
                                 <h3><strong>{{$post->name}}</strong></h3>
-                                <p>{{$post->title}}</p>
-                                <p>{{$post->title}}</p>
+                                <p class="tour_title">{{ \Illuminate\Support\Str::limit($post->title, 200)}}</p>
                                 <ul class="add_info">
                                     <li>
                                         <div class="tooltip_styled tooltip-effect-4">
@@ -103,16 +109,20 @@
                                         </div>
                                     </li>
                                 </ul>
+                                <div class="region">
+                                    <a href="{{$post->region->id}}">{{$post->region->name}}</a>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2">
                             <div class="price_list">
-                                <div><sup>$</sup>{{$post->cost}}*<span class="normal_price_list">{{$post->discount}}</span><small>*Per person</small>
-                                    <p><a href="{{route('posttour.edit', $post->id)}}" class="btn btn-link"><i class="icon-edit"></i></a></p>
-                                    <p><a href="{{route('posttour.show', $post->id)}}" class="btn_1">Details</a></p>
+                                <div class="cost">
+                                    {{ ($post->discount==null) ? $post->cost : $post->discount}} so'm
+                                    <span class="normal_price_list">{{ ($post->discount==null) ? '' : $post->cost.'so\'m'}}</span>
                                 </div>
-
                             </div>
+                            <p><a href="{{route('posttour.show', $post->id)}}" class="btn_1">Details</a></p>
+
                         </div>
                     </div>
                 </div>

@@ -11,8 +11,9 @@ class ImgPostTour extends Model
         return $this->belongsTo(PostTour::class);
     }
 
-    protected $fillable = [
-        'name',
-        'post_tour_id'
-    ];
+    protected $guarded = [];
+//    protected $fillable = [
+//        'name',
+//        'post_tour_id'
+//    ];
 }
