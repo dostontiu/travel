@@ -225,17 +225,6 @@
                                 <li><a href="confirmation_transfer.html">Confirmation transfers</a></li>
                             </ul>
                         </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);" class="show-submenu">Restaurants <i class="icon-down-open-mini"></i></a>
-                            <ul>
-                                <li><a href="all_restaurants_list.html">All restaurants list</a></li>
-                                <li><a href="all_restaurants_grid.html">All restaurants grid</a></li>
-                                <li><a href="all_restaurants_map_listing.html">All restaurants map listing</a></li>
-                                <li><a href="single_restaurant.html">Single restaurant page</a></li>
-                                <li><a href="payment_restaurant.html">Booking restaurant</a></li>
-                                <li><a href="confirmation_restaurant.html">Confirmation transfers</a></li>
-                            </ul>
-                        </li>
                         <li class="megamenu submenu">
                             <a href="javascript:void(0);" class="show-submenu-mega">Bonus<i class="icon-down-open-mini"></i></a>
                             <div class="menu-wrapper">
@@ -327,15 +316,13 @@
                                 </div>
                             </div><!-- End menu-wrapper -->
                         </li>
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Language <span class="caret"></span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{route('frontend.lang', 'en')}}">English</a>
-                                <a class="dropdown-item" href="{{route('frontend.lang', 'ru')}}">Russian</a>
-                                <a class="dropdown-item" href="{{route('frontend.lang', 'uz')}}">Uzbekcha</a>
-                            </div>
+                        <li class="submenu">
+                            <a href="javascript:void(0);" class="show-submenu">{{App::getLocale()}}<i class="icon-down-open-mini"></i></a>
+                            <ul>
+                                @foreach(\App\TourLang::all() as $lang)
+                                    <li><a href="{{route('frontend.lang', $lang->locale)}}">{{$lang->name}}</a></li>
+                                @endforeach
+                            </ul>
                         </li>
                     </ul>
                 </div><!-- End main-menu -->
@@ -380,7 +367,6 @@
         </div>
     </div><!-- container -->
 </header><!-- End Header -->
-<p>{{ trans('sentence.welcome')}}</p>
 @yield('content')
 
 <footer class="revealed">

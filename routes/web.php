@@ -20,7 +20,7 @@ Route::get('posttour', 'PostTourController@index')->name('posttour.index');
 Route::post('posttour', 'PostTourController@store')->name('posttour.store');
 Route::get('posttour/create/{posttour?}', 'PostTourController@create')->name('posttour.create')->where('posttour', '[0-9]+');;
 Route::get('posttour/{posttour}', 'PostTourController@show')->name('posttour.show');
-Route::get('posttour/{posttour}/edit', 'PostTourController@edit')->name('posttour.edit');
+Route::get('posttour/{posttour}/edit/{locale?}', 'PostTourController@edit')->name('posttour.edit');
 Route::put('posttour/{posttour}', 'PostTourController@update')->name('posttour.update');
 
 Route::post('upload-images', 'PostTourController@uploadImages')->name('upload-images');

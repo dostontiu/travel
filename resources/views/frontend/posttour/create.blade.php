@@ -30,13 +30,6 @@
 
         <div class="container margin_60">
             <h2 class="col-md-6 default-title">Create Tour Post</h2>
-            <nav class="col-md-6">
-                <ul class="nav nav-pills" style="float:right">
-                    @foreach($languages as $language)
-                        <li class="btn-default"><a href="">{{$language->name}}</a></li>
-                    @endforeach
-                </ul>
-            </nav>
 
             <div class="row" >
                 <div class="col-md-12">
@@ -48,6 +41,19 @@
                     </form>
                 </div>
             </div>
+
+            <div class="row" data-post="{{ $posttour->id }}">
+                @foreach($images as $image)
+                    <div class="col-md-2 col-sm-3 image-container" data-image="{{ $image->id }}">
+                        <div class="pricing-table black ">
+                            <div class="pricing-table-header"></div>
+                            <a href="#" class="close delete-button" data-url="{{ route('remove-image') }}">&times;</a>
+                            <img src="{{asset('images/'.$image->name)}}" width="155px" alt="" style="padding: 5px 0">
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
             <form action="/posttour" method="post"  enctype="multipart/form-data">
                 {{ csrf_field() }}
 

@@ -1,11 +1,11 @@
 <div class="row">
     <div class="form-group col-md-4 col-sm-12 col-xs-12">
         <label>Language<sup>*</sup></label>
-        <select name="lang_id" class="form-control{{ $errors->has('lang_id') ? ' has-error' : '' }}" >
+        <select {{ (in_array('disabled', $has_lang))?'disabled':'' }} name="lang_id" class="form-control{{ $errors->has('lang_id') ? ' has-error' : '' }}" >
             <option value="">-- Select --</option>
             @foreach($languages as $language)
                 <option value="{{$language->id}}"
-                        {{( ($language->id==old('lang_id')) || ($language->id==$posttour->lang_id) )? 'selected' : ' '}}
+                        {{( ($language->id==old('lang_id')) || ($language->id==$posttourcontent->lang_id) )? 'selected' : ' '}}
                         {{ in_array($language->id, $has_lang)?'disabled':'' }}>
                     {{$language->name}}
                 </option>
@@ -38,7 +38,7 @@
         </select>
         <small class="text-danger">{{ $errors->first('region_id') }}</small>
     </div>
-    <div class="form-group col-md-3 col-sm-6 col-xs-6">
+    <div class="form-group col-md-3 col-s4m-6 col-xs-6">
         <label>Price <sup>*</sup></label>
         <input type="number" name="price" value="{{ old('price') ?? $posttour->price }}" placeholder="" class="form-control">
         <small class="text-danger">{{ $errors->first('price') }}</small>

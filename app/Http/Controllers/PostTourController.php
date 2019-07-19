@@ -36,8 +36,7 @@ class PostTourController extends Controller
      */
     public function create($id=0)
     {
-        
-        $dd = PostTour::with('postTourContent')->get();
+
         $posttour = new PostTour();
         $posttourcontent = new PostTourContent();
         $categories = TourCategory::all();
@@ -54,8 +53,9 @@ class PostTourController extends Controller
                 }
             }
         }
+        $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
 
-        return view('frontend.posttour.create', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
+        return view('frontend.posttour.create', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang', 'images']));
     }
 
     /**
@@ -104,9 +104,7 @@ class PostTourController extends Controller
         $post_tour_content['user_id'] = auth()->id();
         $post_tour_content['status_id'] = 1;
         PostTourContent::create($post_tour_content);
-
 //        dd($post_tour_content);
-
         $this->addImages($post_id);
         return redirect('posttour')->with('success', 'Your post added successfuly!');
 
@@ -131,22 +129,20 @@ class PostTourController extends Controller
      * @param  \App\PostTour  $postTour
      * @return \Illuminate\Http\Response
      */
-    public function edit(PostTour $posttour)
+    public function edit(PostTour $posttour, $locale=null)
     {
-//        $this->authorize(PostTour::class, 'auth');
-//        if (auth()->id()==$posttour->user_id){
-            $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
-            $categories = TourCategory::all();
-            $regions = Region::all();
-//            $posttourcontent = new PostTourContent();
-            $posttourcontent = PostTourContent::where('post_tour_id', 1)->get();
-            dd($posttourcontent);
-            $languages = TourLang::all();
-            $price_types = PriceType::all();
-            $has_lang = [];
-            return view('frontend.posttour.edit', compact(['posttour', 'posttourcontent', 'images', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
-//        }
-//        return back();
+
+        $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
+        $categories = TourCategory::all();
+        $regions = Region::all();
+        $languages = TourLang::all();
+        $price_types = PriceType::all();
+        $has_lang = [0=>'disabled'];
+        $posttourcontent = PostTourContent::where('post_tour_id', $posttour->id)->where('lang_id', $this->getLangId($locale))->first();
+        if ($posttourcontent==null){
+            return abort(404, 'Bu tildagi post mavjud emas');
+        }
+        return view('frontend.posttour.edit', compact(['posttour', 'posttourcontent', 'images', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
     }
 
     /**
@@ -158,22 +154,8 @@ class PostTourController extends Controller
      */
     public function update(PostTour $posttour)
     {
+        dd($posttour);
 
-        $data = request()->validate([
-            'name' => 'required|min:10|max:50',
-            'cost' => 'required',
-            'discount' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'service' => 'required',
-            'rooms' => 'required',
-            'term' => 'required',
-            'activity' => 'required',
-            'category_id' => 'required',
-            'region_id' => 'required',
-        ]);
-        $posttour->update($data);
-        $this->addImages($posttour->id);
         return redirect('/posttour/'.$posttour->id)->with('success', 'Your post updated');
     }
 
@@ -238,6 +220,17 @@ class PostTourController extends Controller
             }
         }
         return $has_lang;
+    }
+
+    public function getLangId($locale)
+    {
+        $lang_id = null;
+        foreach (TourLang::all() as $item) {
+            if ($locale==$item->locale){
+                $lang_id = $item->id;
+            }
+        }
+        return $lang_id;
     }
 
 }
