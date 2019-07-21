@@ -55,7 +55,7 @@
             <div class="row">
                 <form action="{{route('posttour.update', [$posttour->id])}}" method="POST" >
                     @csrf
-                    @method('PATCH')
+                    @method('PUT')
                     @include('frontend.posttour.form')
 
                     <div class="form-group col-md-2 col-sm-6 col-xs-6">

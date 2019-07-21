@@ -27,11 +27,13 @@ class PostTour extends Model
 
 
 
-    public function imgPostTour(){
+    public function imgPostTour()
+    {
         return $this->hasMany(ImgPostTour::class, 'post_tour_id');
     }
 
-    public function postTourContent(){
+    public function postTourContent()
+    {
         return $this->hasMany(PostTourContent::class, 'post_tour_id');
     }
 

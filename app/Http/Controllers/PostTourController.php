@@ -21,10 +21,10 @@ class PostTourController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = PostTour::paginate(6);
+        $posts = PostTour::latest()->paginate(6);
 
         if ($request->ajax()) {
-            return view('frontend.posttour.presult', compact('posts'));
+            return view('frontend.posttour.presult', ['posts' => $posts]);
         }
         return view('frontend.posttour.index', ['posts' => $posts]);
     }
@@ -107,7 +107,6 @@ class PostTourController extends Controller
 //        dd($post_tour_content);
         $this->addImages($post_id);
         return redirect('posttour')->with('success', 'Your post added successfuly!');
-
     }
 
 

@@ -56,8 +56,12 @@
                             <div class="tour_list_desc">
                                 <div class="rating"><i class="icon-smile voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile"></i><small>(75)</small>
                                 </div>
-                                <h3><strong>{{$post->postTourContent->first()->title}}</strong></h3>
-                                <p class="tour_title">{{ \Illuminate\Support\Str::limit($post->title, 200)}}</p>
+                                <h3>
+                                    <strong>
+                                        {{ $post->postTourContent->first()->title }}
+                                    </strong>
+                                </h3>
+                                <p class="tour_title">{{ str_limit($post->title, 200)}}</p>
                                 <ul class="add_info">
                                     <li>
                                         <div class="tooltip_styled tooltip-effect-4">
