@@ -30,6 +30,11 @@ class TravelController extends Controller
 
     public function lang($locale)
     {
+        foreach (App\TourLang::all() as $item){
+            if ($item->locale==$locale){
+                session()->put('locale_id', $item->id);
+            }
+        }
         App::setLocale($locale);
         session()->put('locale', $locale);
         return redirect()->back();

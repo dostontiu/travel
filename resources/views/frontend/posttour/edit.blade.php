@@ -42,7 +42,7 @@
                 </form>
             </div>
             <div class="row" data-post="{{ $posttour->id }}">
-                @foreach($images as $image)
+                @foreach($posttour->imgPostTour as $image)
                     <div class="col-md-2 col-sm-3 image-container" data-image="{{ $image->id }}">
                         <div class="pricing-table black ">
                             <div class="pricing-table-header"></div>

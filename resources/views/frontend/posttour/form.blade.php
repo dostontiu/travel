@@ -106,4 +106,5 @@
         <small class="text-danger">{{ $errors->first('insurance') }}</small>
     </div>
     <input type="hidden" name="post_id" value="{{ $posttour->id }}">
+    <input type="hidden" name="lang_id" value="{{ $posttourcontent->lang_id }}">
 </div>

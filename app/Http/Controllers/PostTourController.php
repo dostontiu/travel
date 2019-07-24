@@ -118,8 +118,11 @@ class PostTourController extends Controller
      */
     public function show(PostTour $posttour)
     {
-        $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
-        return view('frontend.posttour.show', compact('posttour', 'images'));
+        $content = PostTourContent::where('post_tour_id', $posttour->id)->where('lang_id', session()->get('locale_id'))->get()->first();
+        if ($content==null){
+            return abort(404, 'Bu tildagi post mavjud emas');
+        }
+        return view('frontend.posttour.show', compact('posttour', 'content'));
     }
 
     /**
@@ -130,8 +133,6 @@ class PostTourController extends Controller
      */
     public function edit(PostTour $posttour, $locale=null)
     {
-
-        $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
         $categories = TourCategory::all();
         $regions = Region::all();
         $languages = TourLang::all();
@@ -141,7 +142,7 @@ class PostTourController extends Controller
         if ($posttourcontent==null){
             return abort(404, 'Bu tildagi post mavjud emas');
         }
-        return view('frontend.posttour.edit', compact(['posttour', 'posttourcontent', 'images', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
+        return view('frontend.posttour.edit', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
     }
 
     /**
@@ -153,7 +154,32 @@ class PostTourController extends Controller
      */
     public function update(PostTour $posttour)
     {
-        dd($posttour);
+        $post_tour = request()->validate([
+            'price' => 'required|integer',
+            'price_type_id' => 'required|integer',
+            'sale' => 'required|integer',
+            'rooms' => 'required|integer',
+            'category_id' => 'required|integer',
+            'region_id' => 'required|integer',
+        ]);
+        $post_tour['status_id'] = $posttour->status_id;
+        $posttour->update($post_tour);
+
+        $post_tour_content = request()->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'content' => 'required',
+            'service' => 'required',
+            'term' => 'required',
+            'activity' => 'required',
+            'lang_id' => '',
+            'facility' => '',
+            'insurance' => '',
+        ]);
+        $post_tour_content['user_id'] = auth()->id();
+        $posttourcontent = PostTourContent::where('post_tour_id', $posttour->id)->where('lang_id', $post_tour_content['lang_id'])->first();
+        $posttourcontent->update($post_tour_content);
+        $this->addImages($posttour->id);
 
         return redirect('/posttour/'.$posttour->id)->with('success', 'Your post updated');
     }
@@ -223,7 +249,7 @@ class PostTourController extends Controller
 
     public function getLangId($locale)
     {
-        $lang_id = null;
+        $lang_id = session()->get('locale_id');
         foreach (TourLang::all() as $item) {
             if ($locale==$item->locale){
                 $lang_id = $item->id;

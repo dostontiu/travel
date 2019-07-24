@@ -11,13 +11,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-sm-8">
-                        <h1>{{$posttour->name}}</h1>
+                        <h1>{{$content->title}}</h1>
                         <span>account address</span>
                         <span class="rating"><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><small>(75)</small></span>
                     </div>
                     <div class="col-md-4 col-sm-4">
                         <div id="price_single_main">
-                            from/per person <span><sup>$</sup>{{$posttour->cost}}</span>
+                            from/per person <span><sup>$</sup>{{$posttour->price}}</span>
                         </div>
                     </div>
                 </div>
@@ -50,13 +50,13 @@
             <div class="row">
                 <div class="col-md-8" id="single_tour_desc">
                     <div class="row">
-                        <h1>{{$posttour->title}}</h1>
+                        <h1>{{$content->title}}</h1>
                         <h3  class="text-right text-primary">{{$posttour->rooms}} rooms</h3>
-                        @if($images->count() > 0)
+                        @if($posttour->imgPostTour->count() > 0)
                             <div id="Img_carousel" class="slider-pro">
                                 <div class="sp-slides">
 
-                                    @foreach($images as $image)
+                                    @foreach($posttour->imgPostTour as $image)
                                     <div class="sp-slide">
                                         <img alt="Image" class="sp-image" src="{{asset('images/'.$image->name)}}" data-src="{{asset('images/'.$image->name)}}" data-small="{{asset('images/'.$image->name)}}" data-medium="{{asset('images/'.$image->name)}}" data-large="{{asset('images/'.$image->name)}}" data-retina="{{asset('images/'.$image->name)}}">
                                         <p class="sp-layer sp-black sp-padding" data-horizontal="50" data-vertical="50" data-show-transition="down" data-show-delay="500">
@@ -71,7 +71,7 @@
 
                                 </div>
                                 <div class="sp-thumbnails">
-                                    @foreach($images as $image)
+                                    @foreach($posttour->imgPostTour as $image)
                                         <img alt="Image" class="sp-thumbnail" src="{{asset('images/'.$image->name)}}">
                                     @endforeach
                                 </div>
@@ -85,7 +85,7 @@
                             <h3>Description</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$posttour->description!!}</p>
+                            <p>{!!$content->description!!}</p>
                         </div>
                     </div>
                     <hr>
@@ -95,7 +95,7 @@
                             <h3>Service</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$posttour->service!!}</p>
+                            <p>{!!$content->service!!}</p>
                         </div>
                     </div>
                     <hr>
@@ -105,7 +105,7 @@
                             <h3>Facility</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$posttour->facility!!}</p>
+                            <p>{!!$content->facility!!}</p>
                         </div>
                     </div>
                     <hr>
@@ -115,7 +115,7 @@
                             <h3>Activity</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$posttour->activity!!}</p>
+                            <p>{!!$content->activity!!}</p>
                         </div>
                     </div>
                     <hr>
@@ -125,7 +125,7 @@
                             <h3>Insurance</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$posttour->insurance!!}</p>
+                            <p>{!!$content->insurance!!}</p>
                         </div>
                     </div>
                     <hr>
@@ -135,7 +135,7 @@
                             <h3>Term</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$posttour->term!!}</p>
+                            <p>{!!$content->term!!}</p>
                         </div>
                     </div>
                     <hr>
