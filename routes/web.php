@@ -11,9 +11,23 @@
 |
 */
 
+use App\Menu;
+
 Route::get('/', 'TravelController@index')->name('frontend.index');
 Route::get('/viewswitch/{name}', 'TravelController@viewSwitch')->name('viewswitch');
 Route::get('lang/{locale}', 'TravelController@lang')->name('frontend.lang');
+View::composer(['layouts.main'], function ($view){
+    $menular =new Menu;
+    try {
+        $menus=$menular->tree();
+    } catch (Exception $e) {
+        //no parent category found
+    }
+    $menus = Menu::all();
+//    return view('index')->with('categories', $allCategories);
+    $data = 'Assalomu alaykum';
+    $view->with('menus', $menus);
+});
 
 //Route::resource('posttour', 'PostTourController');
 Route::get('posttour', 'PostTourController@index')->name('posttour.index');

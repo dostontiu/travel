@@ -172,6 +172,37 @@
                     </div>
                     <a href="#" class="open_close" id="close_in"><i class="icon_set_1_icon-77"></i></a>
                     <ul>
+
+                        @foreach($menus as $menu)
+                            @if ((count($menu->children) > 0))
+                                <li>
+                                    <a href="#">+{{ $menu->link }} > <i class="fa fa-chevron-right"></i></a>
+                                @include('layouts.menu')
+                            @else
+                                <li>
+                                    <a href="#">*{{ $menu->link }} <i class="fa fa-chevron-right"></i></a>
+                                </li>
+                            @endif
+                        @endforeach
+
+{{--                        @each('layouts.menu', $menus, 'menu', 'layouts.nothing')--}}
+
+{{--                    @foreach($menus as $menu)--}}
+{{--                        @if ((count($menu->children) > 0))--}}
+{{--                            <li class="submenu">--}}
+{{--                                <a href="javascript:void(0);" class="show-submenu">Home <i class="icon-down-open-mini"></i></a>--}}
+{{--                                <ul>--}}
+{{--                                @foreach($menu->children as $item)--}}
+{{--                                    <li><a href="#">{{ $item->link }} <i class="fa fa-chevron-right"></i></a>--}}
+{{--                                @endforeach--}}
+{{--                                </ul>--}}
+{{--                            </li>--}}
+{{--                        @else--}}
+{{--                            <li><a href="#">{{ $menu->link. count($menu->children) }}</a>--}}
+{{--                        @endif--}}
+{{--                            </li>--}}
+{{--                    @endforeach--}}
+
                         <li class="submenu">
                             <a href="javascript:void(0);" class="show-submenu">Home <i class="icon-down-open-mini"></i></a>
                             <ul>
