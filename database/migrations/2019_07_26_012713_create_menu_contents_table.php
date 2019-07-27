@@ -19,7 +19,6 @@ class CreateMenuContentsTable extends Migration
             $table->bigInteger('lang_id');
             $table->string('title');
             $table->string('slug');
-            $table->string('description');
             $table->timestamps();
         });
     }

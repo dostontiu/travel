@@ -17,13 +17,13 @@ Route::get('/', 'TravelController@index')->name('frontend.index');
 Route::get('/viewswitch/{name}', 'TravelController@viewSwitch')->name('viewswitch');
 Route::get('lang/{locale}', 'TravelController@lang')->name('frontend.lang');
 View::composer(['layouts.main'], function ($view){
-    $menular =new Menu;
+    $menular = new Menu;
     try {
         $menus=$menular->tree();
     } catch (Exception $e) {
         //no parent category found
     }
-    $menus = Menu::all();
+    $menus = Menu::where('parent_id', null)->get();
 //    return view('index')->with('categories', $allCategories);
     $data = 'Assalomu alaykum';
     $view->with('menus', $menus);

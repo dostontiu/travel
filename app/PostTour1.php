@@ -34,7 +34,7 @@ class PostTour extends Model
 
     public function postTourContent()
     {
-        return $this->hasMany(PostTourContent::class, 'post_tour_id');
+            return $this->hasMany(PostTourContent::class, 'post_tour_id');
     }
 
     protected $guarded = [];

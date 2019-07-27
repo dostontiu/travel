@@ -18,7 +18,6 @@
 
     <!-- CSS -->
     <link href="{{asset('frontend/css/base.css')}}" rel="stylesheet">
-{{--    <link rel="stylesheet" href="{{asset('css/app.css')}}">--}}
     <link href="{{asset('frontend/css/skins/square/grey.css')}}" rel="stylesheet">
     <link href="{{asset('frontend/css/date_time_picker.css')}}" rel="stylesheet">
 
@@ -172,37 +171,20 @@
                     </div>
                     <a href="#" class="open_close" id="close_in"><i class="icon_set_1_icon-77"></i></a>
                     <ul>
-
-                        @foreach($menus as $menu)
-                            @if ((count($menu->children) > 0))
-                                <li>
-                                    <a href="#">+{{ $menu->link }} > <i class="fa fa-chevron-right"></i></a>
-                                @include('layouts.menu')
-                            @else
-                                <li>
-                                    <a href="#">*{{ $menu->link }} <i class="fa fa-chevron-right"></i></a>
-                                </li>
-                            @endif
+                        @foreach($menus as $item)
+                            <li>
+                                <a href="{{ $item->link }}">{{ $item->title }} <i class="icon-down-open-mini"></i></a>
+                                <ul>
+                                    @foreach($item->children as $menu)
+                                        @foreach($menu->menuContent as $m)
+                                            <li class="submenu">
+                                                <a href="javascript:void(0);">{{ $m->title }}</a>
+                                            </li>
+                                        @endforeach
+                                    @endforeach
+                                </ul>
+                            </li>
                         @endforeach
-
-{{--                        @each('layouts.menu', $menus, 'menu', 'layouts.nothing')--}}
-
-{{--                    @foreach($menus as $menu)--}}
-{{--                        @if ((count($menu->children) > 0))--}}
-{{--                            <li class="submenu">--}}
-{{--                                <a href="javascript:void(0);" class="show-submenu">Home <i class="icon-down-open-mini"></i></a>--}}
-{{--                                <ul>--}}
-{{--                                @foreach($menu->children as $item)--}}
-{{--                                    <li><a href="#">{{ $item->link }} <i class="fa fa-chevron-right"></i></a>--}}
-{{--                                @endforeach--}}
-{{--                                </ul>--}}
-{{--                            </li>--}}
-{{--                        @else--}}
-{{--                            <li><a href="#">{{ $menu->link. count($menu->children) }}</a>--}}
-{{--                        @endif--}}
-{{--                            </li>--}}
-{{--                    @endforeach--}}
-
                         <li class="submenu">
                             <a href="javascript:void(0);" class="show-submenu">Home <i class="icon-down-open-mini"></i></a>
                             <ul>

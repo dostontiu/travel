@@ -17,10 +17,15 @@ class Menu extends Model
 
     public function children() {
 
-        return $this->hasMany('App\Menu', 'parent_id', 'id')->orderBy('display_order');
+        return $this->hasMany(Menu::class, 'parent_id', 'id');
 
     }
 
+    public function menuContent()
+    {
+        return $this->hasMany(MenuContent::class);
+    }
+    
     public static function tree() {
 
         return static::with(implode('.', array_fill(0, 100, 'children')))->where('parent_id', '=', '0')->orderBy('display_order')->get();
