@@ -23,7 +23,12 @@ class Menu extends Model
 
     public function menuContent()
     {
-        return $this->hasMany(MenuContent::class);
+        return $this->hasMany(MenuContent::class)->where('menu_contents.lang_id', session()->get('locale_id'));
+    }
+
+    public function getTitleNameAttribute()
+    {
+        return $this->hasMany(MenuContent::class)->where('menu_contents.lang_id', session()->get('locale_id'))->first()['title'];
     }
     
     public static function tree() {
