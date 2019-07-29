@@ -23,7 +23,7 @@
         <select name="category_id" class="form-control{{ $errors->has('category_id') ? ' has-error' : '' }}" >
             <option value="">-- Select --</option>
             @foreach($categories as $category)
-                <option value="{{$category->id}}"  {{( ($category->id==old('category_id')) || ($category->id==$posttour->category_id) )? 'selected' : '' }}>{{$category->name}}</option>
+                <option value="{{$category->id}}"  {{( ($category->id==old('category_id')) || ($category->id==$posttour->category_id) )? 'selected' : '' }}>{{$category->titleName}}</option>
             @endforeach
         </select>
         <small class="text-danger">{{ $errors->first('category_id') }}</small>
@@ -33,7 +33,7 @@
         <select name="region_id" class="form-control{{ $errors->has('region_id') ? ' has-error' : '' }}" >
             <option value="">-- Select --</option>
             @foreach($regions as $region)
-                <option value="{{$region->id}}"  {{( ($region->id==old('region_id')) || ($region->id==$posttour->region_id) )? 'selected' : '' }}>{{$region->name}}</option>
+                <option value="{{$region->id}}"  {{( ($region->id==old('region_id')) || ($region->id==$posttour->region_id) )? 'selected' : '' }}>{{$region->titleName}}</option>
             @endforeach
         </select>
         <small class="text-danger">{{ $errors->first('region_id') }}</small>
@@ -48,7 +48,7 @@
         <select name="price_type_id" class="form-control{{ $errors->has('price_type_id') ? ' has-error' : '' }}" >
             <option value="">-- Select --</option>
             @foreach($price_types as $price_type)
-                <option value="{{$price_type->id}}"  {{( ($price_type->id==old('price_type_id')) || ($price_type->id==$posttour->price_type_id) )? 'selected' : '' }}>{{$price_type->name}}</option>
+                <option value="{{$price_type->id}}"  {{( ($price_type->id==old('price_type_id')) || ($price_type->id==$posttour->price_type_id) )? 'selected' : '' }}>{{$price_type->titleName}}</option>
             @endforeach
         </select>
         <small class="text-danger">{{ $errors->first('price_type_id') }}</small>

@@ -15,7 +15,6 @@ class CreateRegionsTable extends Migration
     {
         Schema::create('regions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
             $table->string('gps');
             $table->bigInteger('parent_id')->unsigned()->nullable();
             $table->timestamps();

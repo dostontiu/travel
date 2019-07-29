@@ -4,23 +4,48 @@
     </p>
 
     <div class="box_style_cat">
+        <h3 class="text-center">Categories</h3>
         <ul id="cat_nav">
-            <li><a href="#" id="active"><i class="icon_set_1_icon-51"></i>All tours <span>(141)</span></a>
+            @foreach($categories as $category)
+            <li>
+                <a href="javascript:void(0);" data-toggle="collapse" data-target="#collapse-category-{{$category->id}}"  class="active"><i class="{{$category->icon}}"></i>{{$category->titleName}}<span>({{$category->postTour->count()}})</span></a>
+                <ul class="collapse" id="collapse-category-{{$category->id}}">
+                    <li>
+                        <a href="" ><i class="{{$category->icon}}"></i>{{$category->titleName}}<span>({{$category->postTour->count()}})</span></a>
+                    </li>
+                    @foreach($category->children as $subcategory)
+                        @foreach($subcategory->tourCategoryContent as $content)
+                            <li class="">
+                                <a href="" class=""><i class="{{$subcategory->icon}}"></i>{{$content->name}}<span>({{$subcategory->postTour->count()}})</span></a>
+                            </li>
+                        @endforeach
+                    @endforeach
+                </ul>
             </li>
-            <li><a href="#"><i class="icon_set_1_icon-3"></i>City sightseeing <span>(20)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_1_icon-4"></i>Museum tours <span>(16)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_1_icon-44"></i>Historic Buildings <span>(12)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_1_icon-37"></i>Walking tours <span>(11)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_1_icon-14"></i>Eat & Drink <span>(20)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_1_icon-43"></i>Churces <span>(08)</span></a>
-            </li>
-            <li><a href="#"><i class="icon_set_1_icon-28"></i>Skyline tours <span>(11)</span></a>
-            </li>
+            @endforeach
+        </ul>
+    </div>
+
+    <div class="box_style_cat">
+        <h3 class="text-center">Places</h3>
+        <ul id="cat_nav">
+            @foreach($regions as $region)
+                <li>
+                    <a href="javascript:void(0);" data-toggle="collapse" data-target="#collapse-region-{{$region->id}}"  class="active"><i class=""></i>{{$region->titleName}}<span>({{$region->postTour->count()}})</span></a>
+                    <ul class="collapse" id="collapse-region-{{$region->id}}">
+                        <li>
+                            <a href="" ><i class=""></i>{{$region->titleName}}<span>({{$region->postTour->count()}})</span></a>
+                        </li>
+                        @foreach($region->children as $subregion)
+                            @foreach($subregion->tourCategoryContent as $content)
+                                <li class="">
+                                    <a href="" class=""><i class=""></i>{{$content->name}}<span>({{$subregion->postTour->count()}})</span></a>
+                                </li>
+                            @endforeach
+                        @endforeach
+                    </ul>
+                </li>
+            @endforeach
         </ul>
     </div>
 

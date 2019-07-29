@@ -12,7 +12,7 @@
                                     <a href="{{ route('posttour.show',$post->id) }}">
                                             <img src="{{ isset($post->imgPostTour->first()->name) ? asset('images') .'/'. $post->imgPostTour->first()->name : asset('images') .'/'. 'noimage.jpg'}}"class="img-responsive" alt="Image">
                                         <div class="short_info">
-                                            <i class="icon_set_1_icon-44"></i>{{$post->category->name}}<span class="price">{{$post->price}} <sup>{{$post->priceType->name}}</sup></span>
+                                            <i class="icon_set_1_icon-44"></i>{{$post->category->titleName}}<span class="price">{{$post->price}} <sup>{{$post->priceType->titleName}}</sup></span>
                                         </div>
                                     </a>
                                 </div>
@@ -21,9 +21,9 @@
                                     <div class="rating">
                                         <i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><small>(75)</small>
                                         <div style="float: right">
-                                            <a href="{{$post->category->name}}">
+                                            <a href="{{$post->category->id}}">
                                                 <i class="icon_set_1_icon-41"></i>
-                                                {{$post->region->name}}
+                                                {{$post->region->titleName}}
                                             </a>
                                         </div>
                                     </div>
@@ -49,7 +49,7 @@
                                     <div class="img_list">
                                         <a href="{{ route('posttour.show',$post->id) }}">
                                             <img src="{{ isset($post->imgPostTour->first()->name) ? asset('images') .'/'. $post->imgPostTour->first()->name : asset('images') .'/'. 'noimage.jpg'}}" alt="Image">
-                                            <div class="short_info"><i class="icon_set_1_icon-4"></i> {{$post->category->name}} </div>
+                                            <div class="short_info"><i class="icon_set_1_icon-4"></i> {{$post->category->titleName}} </div>
                                         </a>
                                     </div>
                                 </div>
@@ -117,15 +117,15 @@
                                             </li>
                                         </ul>
                                         <div class="region">
-                                            <a href="{{$post->region->id}}">{{$post->region->name}}</a>
+                                            <a href="{{$post->region->id}}">{{$post->region->titleName}}</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-2 col-sm-2">
                                     <div class="price_list">
                                         <div class="cost">
-                                            {{ ($post->sale==null) ? $post->price : $post->sale}} {{$post->priceType->name}}
-                                            <span class="normal_price_list">{{ ($post->sale==null) ? '' : $post->price.' '.$post->priceType->name}}</span>
+                                            {{ ($post->sale==null) ? $post->price : $post->sale}} {{$post->priceType->titleName}}
+                                            <span class="normal_price_list">{{ ($post->sale==null) ? '' : $post->price.' '.$post->priceType->titleName}}</span>
                                         </div>
                                     </div>
                                     <p><a href="{{route('posttour.show', $post->id)}}" class="btn_1">Details</a></p>

@@ -1102,6 +1102,12 @@ ul#cat_nav {
 	padding: 0;
 }
 
+ul#cat_nav ul{
+	list-style: none;
+	/*margin: 0;*/
+	/*padding: 0;*/
+}
+
 ul#cat_nav li {
 	border-bottom: 1px solid #ddd;
 }

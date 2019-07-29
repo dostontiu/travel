@@ -22,11 +22,13 @@ class PostTourController extends Controller
     public function index(Request $request)
     {
         $posts = PostTour::latest()->paginate(6);
+        $categories = TourCategory::where('parent_id', null)->get();
+        $regions = Region::where('parent_id', null)->get();
 
         if ($request->ajax()) {
             return view('frontend.posttour.presult', ['posts' => $posts]);
         }
-        return view('frontend.posttour.index', ['posts' => $posts]);
+        return view('frontend.posttour.index', ['posts'=>$posts, 'categories'=>$categories, 'regions'=>$regions]);
     }
 
     /**
