@@ -1,17 +1,19 @@
 @extends('layouts.main')
 @section('content')
 
-    <section class="parallax-window" data-parallax="scroll" data-image-src="{{asset('frontend/img/single_tour_bg_1.jpg')}}" data-natural-width="1400" data-natural-height="470">
+    <section class="parallax-window" data-parallax="scroll" data-image-src="{{asset('images/'.$account->banner.'')}}" data-natural-width="1400" data-natural-height="470">
         <div class="parallax-content-2">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-8 col-sm-8">
-                        <h1>{{$account->company_name}}</h1>
-                        <span>{{$account->address}}</span>
+                    <div class="col-md-8 col-sm-12 text-center">
+                        <h1>{{$account->accountContent['company_name']}}</h1>
                         <span class="rating"><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><small>(75)</small></span>
                     </div>
-                    <div class="col-md-4 col-sm-4">
-                        <h3 class="text-right text-primary"><b>{{$account->telephone}}</b></h3>
+                    <div class="col-md-4 col-sm-12">
+                        <div class="img_container">
+                                <img src="{{asset('images/'.$account->logo.'')}}" alt="Image">
+                                <div class="short_info"><i class="icon_set_1_icon-4"></i>{{$account->company_name}}</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,136 +41,77 @@
         <!-- End Map -->
 
         <div class="container margin_60">
-            <div class="row">
-                <div class="col-md-8" id="single_tour_desc">
-                    <div class="row">
-                        @php
-                            //dd($account->postTour()) haha
-                        @endphp
-{{--                        @foreach($account->postTour as $post)--}}
-{{--                            {{ $post }}--}}
-{{--                        @endforeach--}}
-                        <h1 class="text-center">{{$account->company_name}}</h1>
-                        <p>{{$account->title}}</p>
-                        <div id="single_tour_feat">
+            @include('frontend.posttour.aside')
+            <div class="col-lg-9 col-md-9">
+                <div class="main_title">
+                    <h2>{{$account->accountContent['description']}}</h2>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2><span>Address</span></h2>
+                        <h3>{{$account->accountContent['address']}}</h3>
+                        <h2><span>Address</span></h2>
+                        <h3>{{$account->accountContent['address']}}</h3>
+                        <h2><span>Emails</span></h2>
+                        <h3>{{$account->emails}}</h3>
+                        <h2><span>Messenger</span></h2>
+                        <h3>{{$account->messenger}}</h3>
+                        <h2><span>Telephone</span></h2>
+                        <h3>{{$account->telephone}}</h3>
+                        <hr>
+                        <div class="general_icons">
                             <ul>
-                                <li><i class="icon_set_1_icon-4"></i>Museum</li>
-                                <li><i class="icon_set_1_icon-83"></i>3 Hours</li>
-                                <li><i class="icon_set_1_icon-13"></i>Accessibiliy</li>
-                                <li><i class="icon_set_1_icon-82"></i>144 Likes</li>
-                                <li><i class="icon_set_1_icon-22"></i>Pet allowed</li>
-                                <li><i class="icon_set_1_icon-97"></i>Audio guide</li>
-                                <li><i class="icon_set_1_icon-29"></i>Tour guide</li>
+                                <li><i class="icon_set_1_icon-34"></i>Camera</li>
+                                <li><i class="icon_set_1_icon-31"></i>Video camera</li>
+                                <li><i class="icon_set_1_icon-35"></i>Credit cards</li>
+                                <li><i class="icon_set_1_icon-63"></i>Mobile</li>
+                                <li><i class="icon_set_1_icon-33"></i>Travel bag</li>
+                                <li><i class="icon_set_1_icon-9"></i>Snack</li>
+                                <li><i class="icon_set_1_icon-37"></i>Map</li>
                             </ul>
                         </div>
-                        <p>{!! $account->description !!}</p>
                     </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h3>Term</h3>
-                        </div>
-                        <div class="col-md-9">
-                            <p>{!!$account->term!!}</p>
-                        </div>
-                    </div>
-
-                    <hr>
                 </div>
-                <!--End  single_tour_desc-->
-
-                <aside class="col-md-4">
-                    <p class="hidden-sm hidden-xs">
-                        <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Hide map" data-text-original="View on map">View on map</a>
-                    </p>
-                    <div class="box_style_1 expose">
-                        <p class="visible-sm visible-xs"><a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap" data-text-swap="Hide map" data-text-original="View on map">View on map</a></p>
-                        <!-- Map button for tablets/mobiles -->
-                        <h3 class="inner">- Booking -</h3>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label><i class="icon-calendar-7"></i> Select a date</label>
-                                    <input class="date-pick form-control" data-date-format="M d, D" type="text">
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label><i class=" icon-clock"></i> Time</label>
-                                    <input class="time-pick form-control" value="12:00 AM" type="text">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label>Adults</label>
-                                    <div class="numbers-row">
-                                        <input type="text" value="1" id="adults" class="qty2 form-control" name="quantity">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label>Children</label>
-                                    <div class="numbers-row">
-                                        <input type="text" value="0" id="children" class="qty2 form-control" name="quantity">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <br>
-                        <table class="table table_summary">
-                            <tbody>
-                            <tr>
-                                <td>
-                                    Adults
-                                </td>
-                                <td class="text-right">
-                                    2
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Children
-                                </td>
-                                <td class="text-right">
-                                    0
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Total amount
-                                </td>
-                                <td class="text-right">
-                                    3x $52
-                                </td>
-                            </tr>
-                            <tr class="total">
-                                <td>
-                                    Total cost
-                                </td>
-                                <td class="text-right">
-                                    $154
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <a class="btn_full" href="cart.html">Book now</a>
-                        <a class="btn_full_outline" href="#"><i class=" icon-heart"></i> Add to whislist</a>
-                    </div>
-                    <!--/box_style_1 -->
-
-                    <div class="box_style_4">
-                        <i class="icon_set_1_icon-90"></i>
-                        <h4><span>Book</span> by phone</h4>
-                        <a href="tel://004542344599" class="phone">+45 423 445 99</a>
-                        <small>Monday to Friday 9.00am - 7.30pm</small>
-                    </div>
-
-                </aside>
+                <!-- End row -->
+                <hr>
             </div>
-            <!--End row -->
+            <div class="col-lg-9 col-md-9">
+                <br>
+                <div id="tools">
+
+                    <div class="row">
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                            <div class="styled-select-filters">
+                                <select name="sort_price" id="sort_price">
+                                    <option value="" selected>Sort by price</option>
+                                    <option value="lower">Lowest price</option>
+                                    <option value="higher">Highest price</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                            <div class="styled-select-filters">
+                                <select name="sort_rating" id="sort_rating">
+                                    <option value="" selected>Sort by ranking</option>
+                                    <option value="lower">Lowest ranking</option>
+                                    <option value="higher">Highest ranking</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="viewcontrols" class="col-md-6 col-sm-6 hidden-xs text-right">
+                            <a href="{{route('viewswitch', 'list')}}" class="listview active bt_filters"><i class="icon-list"></i></a>
+                            <a href="{{route('viewswitch', 'grid')}}" class="gridview bt_filters"><i class="icon-th"></i></a>
+                        </div>
+
+                    </div>
+                </div>
+                <!--/tools -->
+                <div id="tag_container">
+                    @include('frontend.posttour.presult')
+                </div>
+            </div>
         </div>
         <!--End container -->
 

@@ -15,6 +15,7 @@ class CreatePostToursTable extends Migration
     {
         Schema::create('post_tours', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
             $table->float('price');
             $table->integer('price_type_id');
             $table->integer('sale')->nullable();

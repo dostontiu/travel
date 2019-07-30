@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\PostTour;
+use App\Region;
+use App\TourCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,6 +20,25 @@ class AccountController extends Controller
     {
         $accounts = Account::all();
         return view('frontend.account.index', ['accounts' => $accounts]);
+    }
+
+    public function show($company_name)
+    {
+        $account = Account::where('company_name', $company_name)->get()->first();
+        $categories = TourCategory::where('parent_id', null)->get();
+        $regions = Region::where('parent_id', null)->get();
+        if ($account==null){
+            abort(404);
+        }
+//        dd($account->user->email);
+
+//        $posts = PostTour::where('price_type_id', $account->user_id);
+        $posts = PostTour::where('user_id', $account->user_id)->latest()->paginate(6);
+        if (request()->ajax()) {
+            return view('frontend.posttour.presult', ['posts' => $posts]);
+        }
+
+        return view('frontend.account.show', compact('account', 'categories', 'regions', 'posts'));
     }
 
     /**
@@ -84,17 +105,7 @@ class AccountController extends Controller
      * @param  \App\Account  $account
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $account = Account::find($id);
 
-        $posts = PostTour::where('user_id', $id);
-
-        return view('frontend.account.show', [
-            'account' => $account,
-            'posts' => $posts
-        ]);
-    }
 
     /**
      * Show the form for editing the specified resource.

@@ -15,7 +15,7 @@ class CreatePostTourContentsTable extends Migration
     {
         Schema::create('post_tour_contents', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->bigInteger('user_id'); //buni ochirib tashlash kerak
             $table->bigInteger('post_tour_id');
             $table->bigInteger('lang_id');
             $table->integer('status_id');

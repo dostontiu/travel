@@ -199,7 +199,7 @@
                                         <p class="rating"><i class="icon-smile voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile"></i><small>(75)</small></p>
                                         <p>
                                             <a href="{{ route('frontend.index') }}/account/{{$account->id}}" class="btn btn-primary">Details</a>
-                                            <a href="{{route('account.edit', $account->id)}}" class="btn btn-link"><i class="icon-edit"></i></a>
+{{--                                            <a href="{{route('account.edit', $account->id)}}" class="btn btn-link"><i class="icon-edit"></i></a>--}}
                                         </p>
                                         <p><a href="#" class="btn btn-primary">Follow</a></p>
                                         <ul class="add_info">

@@ -41,7 +41,6 @@ Route::post('upload-images', 'PostTourController@uploadImages')->name('upload-im
 Route::post('/remove-image', 'PostTourController@delImage')->name('remove-image');
 Route::delete('posttour/del-image/{id}', 'PostTourController@delImage')->name('del-image');
 
-Route::group(['middleware' => 'auth'], function (){
-    Route::resource('account', 'AccountController');
-});
+Route::get('account', 'AccountController@index')->name('account.index')->middleware('auth');
+Route::get('account/{company_name}', 'AccountController@show')->name('account.show');
 Auth::routes();

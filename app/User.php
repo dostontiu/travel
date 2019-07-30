@@ -12,7 +12,7 @@ class User extends Authenticatable
 
     public function account()
     {
-        return $this->hasOne('App\Account');
+        return $this->hasOne(Account::class, 'user_id');
     }
 
     public function postTour(){
@@ -26,7 +26,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'password',
+        'name', 'surname', 'email', 'password', 'role_id',
     ];
 
     /**

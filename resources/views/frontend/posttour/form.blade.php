@@ -72,7 +72,7 @@
     </div>
     <div class="form-group col-md-12 col-sm-12 col-xs-12">
         <label>Description <sup>*</sup></label>
-        <textarea rows="10" name="description" placeholder="ck-editor" class="form-control">{{ old('description') ?? $posttourcontent->description}}</textarea>
+        <input type="text" name="description" value="{{ old('description') ?? $posttourcontent->description }}" placeholder="" class="form-control">
         <small class="text-danger">{{ $errors->first('description') }}</small>
     </div>
     <div class="form-group col-md-12 col-sm-12 col-xs-12">

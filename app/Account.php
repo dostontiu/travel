@@ -7,12 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
 
+    protected $guarded =[];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    protected $fillable = [
-        'address', 'company_name', 'description', 'telephone', 'emails', 'logo', 'banner', 'user_id'
-    ];
+    public function accountContents()
+    {
+        return $this->hasMany(AccountContent::class, 'account_id')->where('account_contents.lang_id', session()->get('locale_id'));
+    }
+
+    public function getAccountContentAttribute()
+    {
+        return $this->hasMany(AccountContent::class, 'account_id')->where('account_contents.lang_id', session()->get('locale_id'))->first();
+    }
 }

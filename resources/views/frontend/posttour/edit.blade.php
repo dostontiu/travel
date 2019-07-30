@@ -74,7 +74,7 @@
     <script src="{{asset('frontend/js/dropzone.js')}}"></script>
     <script src="{{asset('vendor/unisharp/laravel-ckeditor/ckeditor.js')}}"></script>
     <script>
-        CKEDITOR.replace( 'description',{
+        CKEDITOR.replace( 'content',{
             language: 'en',
         } );
         CKEDITOR.replace( 'service',{

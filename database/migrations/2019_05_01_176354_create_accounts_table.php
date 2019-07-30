@@ -16,14 +16,12 @@ class CreateAccountsTable extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('user_id')->unsigned()->unique();
-            $table->string('company_name');
-            $table->text('address');
-            $table->text('description');
-            $table->string('telephone');
+            $table->string('company_name')->unique();
             $table->string('emails'); // one more email
+            $table->string('messenger');
+            $table->string('telephone');
             $table->string('logo');
             $table->string('banner');
-            $table->string('messenger');
             $table->dateTime('work_time_start')->nullable();
             $table->dateTime('work_time_end')->nullable();
             $table->integer('role_id')->default('1');
