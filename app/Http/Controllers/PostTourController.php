@@ -10,6 +10,7 @@ use App\Region;
 use App\TourCategory;
 use App\TourLang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class PostTourController extends Controller
@@ -21,10 +22,9 @@ class PostTourController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = PostTour::latest()->paginate(6);
+        $posts = PostTour::with('postTourContents')->latest()->paginate(6);
         $categories = TourCategory::where('parent_id', null)->get();
         $regions = Region::where('parent_id', null)->get();
-
         if ($request->ajax()) {
             return view('frontend.posttour.presult', ['posts' => $posts]);
         }
@@ -38,7 +38,6 @@ class PostTourController extends Controller
      */
     public function create($id=0)
     {
-
         $posttour = new PostTour();
         $posttourcontent = new PostTourContent();
         $categories = TourCategory::all();
@@ -47,7 +46,7 @@ class PostTourController extends Controller
         $price_types = PriceType::all();
         $has_lang = [];
 
-        foreach (PostTour::with('postTourContent')->get() as $item) {
+        foreach (PostTour::with('postTourContents')->get() as $item) {
             if ($item->id==$id){
                 $posttour = PostTour::find($id);
                 foreach ($item->postTourContent as $d){
@@ -120,11 +119,10 @@ class PostTourController extends Controller
      */
     public function show(PostTour $posttour)
     {
-        $content = PostTourContent::where('post_tour_id', $posttour->id)->where('lang_id', session()->get('locale_id'))->get()->first();
-        if ($content==null){
-            return abort(404, 'Bu tildagi post mavjud emas');
+        if ($posttour->postTourContent==null){
+            return abort(404, 'Bu tildagi post mavjud emas lekin boshqa tillarda bolishi mumkin');
         }
-        return view('frontend.posttour.show', compact('posttour', 'content'));
+        return view('frontend.posttour.show', compact('posttour'));
     }
 
     /**

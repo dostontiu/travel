@@ -14,11 +14,6 @@ class Account extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function accountContents()
-    {
-        return $this->hasMany(AccountContent::class, 'account_id')->where('account_contents.lang_id', session()->get('locale_id'));
-    }
-
     public function getAccountContentAttribute()
     {
         return $this->hasMany(AccountContent::class, 'account_id')->where('account_contents.lang_id', session()->get('locale_id'))->first();

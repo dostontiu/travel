@@ -11,7 +11,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-sm-8">
-                        <h1>{{$content->title}}</h1>
+                        <h1>{{ $posttour->postTourContent['title'] }}</h1>
                         <span>account address</span>
                         <span class="rating"><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile voted"></i><i class="icon-smile"></i><small>(75)</small></span>
                     </div>
@@ -50,9 +50,9 @@
             <div class="row">
                 <div class="col-md-8" id="single_tour_desc">
                     <div class="row">
-                        <h1>{{$content->title}}</h1>
+                        <h1>{{ $posttour->postTourContent['title'] }}</h1>
                         <h3  class="text-right text-primary">{{$posttour->rooms}} rooms</h3>
-                        @if($posttour->imgPostTour->count() > 0)
+                        @if($posttour->imgPostTour->count() < 0)
                             <div id="Img_carousel" class="slider-pro">
                                 <div class="sp-slides">
 
@@ -85,7 +85,7 @@
                             <h3>Description</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$content->description!!}</p>
+                            <p>{!! $posttour->postTourContent['description'] !!}</p>
                         </div>
                     </div>
                     <hr>
@@ -95,7 +95,7 @@
                             <h3>Service</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$content->service!!}</p>
+                            <p>{!! $posttour->postTourContent['service'] !!}</p>
                         </div>
                     </div>
                     <hr>
@@ -105,7 +105,7 @@
                             <h3>Facility</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$content->facility!!}</p>
+                            <p>{!! $posttour->postTourContent['facility'] !!}</p>
                         </div>
                     </div>
                     <hr>
@@ -115,7 +115,7 @@
                             <h3>Activity</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$content->activity!!}</p>
+                            <p>{!! $posttour->postTourContent['activity'] !!}</p>
                         </div>
                     </div>
                     <hr>
@@ -125,7 +125,7 @@
                             <h3>Insurance</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$content->insurance!!}</p>
+                            <p>{!! $posttour->postTourContent['insurance'] !!}</p>
                         </div>
                     </div>
                     <hr>
@@ -135,7 +135,7 @@
                             <h3>Term</h3>
                         </div>
                         <div class="col-md-9">
-                            <p>{!!$content->term!!}</p>
+                            <p>{!! $posttour->postTourContent['term'] !!}</p>
                         </div>
                     </div>
                     <hr>

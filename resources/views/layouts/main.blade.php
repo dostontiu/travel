@@ -173,12 +173,12 @@
                     <ul>
                         @foreach($menus as $item)
                             <li>
-                                <a href="{{ $item->link }}">{{ $item->titleName }} <i class="icon-down-open-mini"></i></a>
+                                <a href="{{ URL::to($item->link) }}">{{ $item->titleName }} <i class="icon-down-open-mini"></i></a>
                                 <ul>
                                     @foreach($item->children as $menu)
                                         @foreach($menu->menuContent as $m)
                                             <li class="submenu">
-                                                <a href="{{ $menu->link }}">{{ $m->title }}</a>
+                                                <a href="{{ URL::to($menu->link) }}">{{ $m->title }}</a>
                                             </li>
                                         @endforeach
                                     @endforeach

@@ -182,7 +182,7 @@
                                             <a class="tooltip_flip tooltip-effect-1" href="javascript:void(0);">+<span class="tooltip-content-flip"><span class="tooltip-back">Add to wishlist</span></span></a>
                                         </div>
                                         <div class="img_list">
-                                            <a href="{{ route('frontend.index') }}/account/{{$account->id}}"><img src="{{asset('frontend/img/tour_box_1.jpg')}}" alt="Image"></a>
+                                            <a href="{{ route('frontend.index') }}/account/{{$account->company_name}}"><img src="{{asset('frontend/img/tour_box_1.jpg')}}" alt="Image"></a>
                                         </div>
                                     </div>
                                     <div class="clearfix visible-xs-block"></div>
@@ -198,7 +198,7 @@
                                         <br>
                                         <p class="rating"><i class="icon-smile voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile  voted"></i><i class="icon-smile"></i><small>(75)</small></p>
                                         <p>
-                                            <a href="{{ route('frontend.index') }}/account/{{$account->id}}" class="btn btn-primary">Details</a>
+                                            <a href="{{ route('frontend.index') }}/account/{{$account->company_name}}" class="btn btn-primary">Details</a>
 {{--                                            <a href="{{route('account.edit', $account->id)}}" class="btn btn-link"><i class="icon-edit"></i></a>--}}
                                         </p>
                                         <p><a href="#" class="btn btn-primary">Follow</a></p>
