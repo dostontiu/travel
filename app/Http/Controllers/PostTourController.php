@@ -15,14 +15,10 @@ use Illuminate\Support\Facades\File;
 
 class PostTourController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index(Request $request)
     {
-        $posts = PostTour::with('postTourContents')->latest()->paginate(6);
+        $posts = PostTour::with('postTourContent')->latest()->paginate(6);
         $categories = TourCategory::where('parent_id', null)->get();
         $regions = Region::where('parent_id', null)->get();
         if ($request->ajax()) {
@@ -31,40 +27,42 @@ class PostTourController extends Controller
         return view('frontend.posttour.index', ['posts'=>$posts, 'categories'=>$categories, 'regions'=>$regions]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create($id=0)
+
+    public function show(PostTour $posttour)
     {
+        if ($posttour->postTourContent==null){
+            return abort(404, 'Bu tildagi post mavjud emas lekin boshqa tillarda bolishi mumkin');
+        }
+        return view('frontend.posttour.show', compact('posttour'));
+    }
+
+
+    public function create($locale, $id=null)
+    {
+        if (!in_array($locale, $this->getLocales())){
+            abort(404, 'There is not '. $locale . ' language');
+        }
+        $images = null;
+        $has_lang = [];
         $posttour = new PostTour();
         $posttourcontent = new PostTourContent();
         $categories = TourCategory::all();
         $regions = Region::all();
         $languages = TourLang::all();
         $price_types = PriceType::all();
-        $has_lang = [];
-
-        foreach (PostTour::with('postTourContents')->get() as $item) {
-            if ($item->id==$id){
-                $posttour = PostTour::find($id);
-                foreach ($item->postTourContent as $d){
-                    $has_lang[] = $d->lang_id;
-                }
+        if ($id != null){
+            $posttour = PostTour::find($id);
+            if ($posttour == null){
+                abort(404, 'There is not any information for id='.$id);
             }
+            if (in_array(TourLang::where('locale', $locale)->get('id')->first()->id, $this->hasLang($id))){
+                abort(404, 'You cannot create for this language because it has already created!');
+            }
+            $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
+            $has_lang = $this->hasLang($id);
         }
-        $images = ImgPostTour::where('post_tour_id', $posttour->id)->get();
-
-        return view('frontend.posttour.create', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang', 'images']));
+        return view('frontend.posttour.create', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang', 'images', 'locale']));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
 
 
     public function store(Request $request)
@@ -77,7 +75,6 @@ class PostTourController extends Controller
             'rooms' => 'required|integer',
             'category_id' => 'required|integer',
             'region_id' => 'required|integer',
-            'status_id' => '',
         ]);
         $post_tour_content = $request->validate([
             'title' => 'required',
@@ -92,66 +89,43 @@ class PostTourController extends Controller
         ]);
 
         if ($post_id == null){
+            $post_tour['user_id'] = auth()->id();
             $post_tour['status_id'] = 1;
             $post = PostTour::create($post_tour);
             $post_id = $post->id;
-        }
-        //langni tekshirish
-        if (in_array($post_tour_content['lang_id'], $this->hasLang($post_id))){
-            return redirect('posttour/create/'.$post_id)->with('error', 'This language post already exist!')->withInput();
-//            return 'bu til bor';
+        } else {
+            if (in_array($post_tour_content['lang_id'], $this->hasLang($post_id))){
+                return redirect()->back()->with('error', 'This language post already exist!');
+            }
         }
         $post_tour_content['post_tour_id'] = $post_id;
         $post_tour_content['user_id'] = auth()->id();
         $post_tour_content['status_id'] = 1;
         PostTourContent::create($post_tour_content);
-//        dd($post_tour_content);
         $this->addImages($post_id);
-        return redirect('posttour')->with('success', 'Your post added successfuly!');
+        return redirect(route('posttour.index'))->with('success', 'Your post added successfuly!');
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\PostTour  $postTour
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PostTour $posttour)
+    public function edit(PostTour $posttour, $locale)
     {
-        if ($posttour->postTourContent==null){
-            return abort(404, 'Bu tildagi post mavjud emas lekin boshqa tillarda bolishi mumkin');
+        if (!in_array($locale, $this->getLocales())){
+            abort(404, 'There is not '. $locale . ' language');
         }
-        return view('frontend.posttour.show', compact('posttour'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\PostTour  $postTour
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PostTour $posttour, $locale=null)
-    {
         $categories = TourCategory::all();
         $regions = Region::all();
         $languages = TourLang::all();
         $price_types = PriceType::all();
-        $has_lang = [0=>'disabled'];
+        $has_lang = $this->hasLang($posttour->id);
         $posttourcontent = PostTourContent::where('post_tour_id', $posttour->id)->where('lang_id', $this->getLangId($locale))->first();
+//        dd($posttourcontent);
         if ($posttourcontent==null){
-            return abort(404, 'Bu tildagi post mavjud emas');
+            return abort(404, 'There is no post in this language');
         }
-        return view('frontend.posttour.edit', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang']));
+        return view('frontend.posttour.edit', compact(['posttour', 'posttourcontent', 'categories', 'regions', 'languages', 'price_types', 'has_lang', 'locale']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\PostTour  $postTour
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(PostTour $posttour)
     {
         $post_tour = request()->validate([
@@ -181,20 +155,8 @@ class PostTourController extends Controller
         $posttourcontent->update($post_tour_content);
         $this->addImages($posttour->id);
 
-        return redirect('/posttour/'.$posttour->id)->with('success', 'Your post updated');
+        return redirect(route('posttour.index'))->with('success', 'Your post updated successfuly!');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\PostTour  $postTour
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PostTour $postTour)
-    {
-        //
-    }
-
 
 
     public function uploadImages(Request $request){
@@ -210,6 +172,7 @@ class PostTourController extends Controller
             $image->move('images', $imageName);
         }
     }
+
 
     public function addImages($id)
     {
@@ -237,14 +200,20 @@ class PostTourController extends Controller
     public function hasLang($id)
     {
         $has_lang = [];
-        foreach (PostTour::with('postTourContent')->get() as $item) {
-            if ($item->id==$id){
-                foreach ($item->postTourContent as $d){
-                    $has_lang[] = $d->lang_id;
-                }
-            }
+        foreach (PostTourContent::where('post_tour_id', $id)->get('lang_id') as $langs) {
+            $has_lang[$langs->lang_id] = $langs->lang_id;
+//                $has_lang = PostTourContent::where('post_tour_id', $id)->get('lang_id')->toArray();
         }
-        return $has_lang;
+        return array_unique($has_lang);
+    }
+
+    public function getLocales()
+    {
+        $langs = TourLang::all();
+        foreach ($langs as $lang) {
+            $locale[$lang->id] = $lang->locale;
+        }
+        return $locale;
     }
 
     public function getLangId($locale)

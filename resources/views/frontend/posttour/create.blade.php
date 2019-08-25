@@ -29,19 +29,10 @@
         <!-- End Position -->
 
         <div class="container margin_60">
-            <h2 class="col-md-6 default-title">Create Tour Post</h2>
+            @include('system.error')
+            <h2 class="default-title">Create Post Tour</h2>
 
-            <div class="row" >
-                <div class="col-md-12">
-                    <label>Upload images for galery <sup>*</sup></label>
-                    <form action="{{asset('upload-images')}}"
-                          class="dropzone"
-                          id="my-awesome-dropzone">
-                        {{ csrf_field() }}
-                    </form>
-                </div>
-            </div>
-
+            @if($images != null)
             <div class="row" data-post="{{ $posttour->id }}">
                 @foreach($images as $image)
                     <div class="col-md-2 col-sm-3 image-container" data-image="{{ $image->id }}">
@@ -52,6 +43,15 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            @endif
+            <div class="col-md-9">
+                <label>Upload images for galery <sup>*</sup></label>
+                <form action="{{asset('upload-images')}}"
+                      class="dropzone"
+                      id="my-awesome-dropzone">
+                    {{ csrf_field() }}
+                </form>
             </div>
 
             <form action="/posttour" method="post"  enctype="multipart/form-data">
@@ -70,28 +70,5 @@
         <!-- End Container -->
     </main>
     <!-- End main -->
-    @push('scripts')
-        <script src="{{asset('frontend/js/dropzone.js')}}"></script>
-        <script src="{{asset('vendor/unisharp/laravel-ckeditor/ckeditor.js')}}"></script>
-        <script>
-            CKEDITOR.replace( 'content',{
-                language: 'en',
-            } );
-            CKEDITOR.replace( 'service',{
-                language: 'en',
-            } );
-            CKEDITOR.replace( 'activity',{
-                language: 'en',
-            } );
-            CKEDITOR.replace( 'term',{
-                language: 'en',
-            } );
-
-            Dropzone.options.imageUpload = {
-                maxFilesize         :       1,
-                acceptedFiles: ".jpeg,.jpg,.png,.gif",
-            };
-        </script>
-    @endpush
 
 @endsection

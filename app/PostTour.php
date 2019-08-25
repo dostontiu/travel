@@ -32,10 +32,10 @@ class PostTour extends Model
         return $this->hasMany(ImgPostTour::class, 'post_tour_id');
     }
 
-    public function postTourContents()
+    public function postTourContent()
     {
-        return $this->hasMany(PostTourContent::class, 'post_tour_id', 'id')
-            ->where('post_tour_contents.lang_id', '=', session()->get('locale_id')); // bu ishlamayapti shuni ishlatish kerak
+        return $this->hasMany(PostTourContent::class, 'post_tour_id', 'id');
+//            ->where('post_tour_contents.lang_id', '=', session()->get('locale_id')); // bu ishlamayapti shuni ishlatish kerak
     }
 
 

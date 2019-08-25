@@ -17,7 +17,13 @@
                     </div>
                     <div class="col-md-4 col-sm-4">
                         <div id="price_single_main">
-                            from/per person <span><sup>$</sup>{{$posttour->price}}</span>
+                            <div class="price_list">
+                                <div class="cost">
+                                    <span>{{ ($posttour->sale==null) ? $posttour->price : $posttour->sale}}  {{$posttour->priceType->titleName}}</span>
+                                    <h2 class="normal_price_list">{{ ($posttour->sale==null) ? '' : $posttour->price.' '.$posttour->priceType->titleName}}</h2>
+                                </div>
+                            </div>
+{{--                            from/per person <span><sup>$</sup>{{$posttour->price}}</span>--}}
                         </div>
                     </div>
                 </div>
@@ -52,7 +58,7 @@
                     <div class="row">
                         <h1>{{ $posttour->postTourContent['title'] }}</h1>
                         <h3  class="text-right text-primary">{{$posttour->rooms}} rooms</h3>
-                        @if($posttour->imgPostTour->count() < 0)
+                        @if($posttour->imgPostTour->count() > 0)
                             <div id="Img_carousel" class="slider-pro">
                                 <div class="sp-slides">
 
@@ -67,7 +73,6 @@
                                         </p>
                                     </div>
                                     @endforeach
-
 
                                 </div>
                                 <div class="sp-thumbnails">
